@@ -22,7 +22,7 @@ export default {
 
             const newTodoForm = {
                 id:Math.random() + "" + new Date().getTime(),
-                name: this.newTodo,
+                title: this.newTodo,
                 isComplete:false,
             }
 
@@ -76,5 +76,12 @@ export default {
 
     form button {
         width:25%;
+        background-color: #818cf8;
+        color:#fff;
+    }
+    
+    form button:hover {
+        cursor: pointer;
+        background-color: #6366f1;
     }
 </style>
