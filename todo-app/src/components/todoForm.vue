@@ -70,12 +70,12 @@ export default {
         outline: none;
     }
     form input {
-        width:75%;
+        width:70%;
         padding-left: 8px;
     }
 
     form button {
-        width:25%;
+        width:30%;
         background-color: #818cf8;
         color:#fff;
     }

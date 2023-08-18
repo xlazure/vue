@@ -1,12 +1,13 @@
 <template>
     <li :class="{ isComplited: todo.isCompleted }">
-        <form v-if="isEditing" @submit.prevent="updateTodo">
-            <input type="text" name="title" :value="todo.title" />
-            <input type="submit" value="save">
-        </form>
-        <p v-else>{{ todo.title }}</p>
-
         <div>
+            <form v-if="isEditing" @submit.prevent="updateTodo">
+                <textarea type="text" name="title" :value="todo.title" />
+                <input type="submit" value="save">
+            </form>
+            <p v-else>{{ todo.title }}</p>
+        </div>
+        <div style="text-align: right;">
             <button @click="this.$emit('removeTodo', todo.id)" title="Remove todo">
                 <TrashIcon />
             </button>
@@ -58,7 +59,9 @@ export default {
 
 li {
     overflow: hidden;
-    display: flex;
+    display: grid;
+    gap:.2em;
+    grid-template-columns: 60% 40%;
     justify-content: space-between;
 
     width: 100%;
@@ -73,6 +76,7 @@ li {
 li button {
     transition: 200ms ease-in-out;
     margin-right: 4px;
+    margin-bottom: 4px;
     background-color: transparent;
     border-radius: 8px;
     box-shadow: 0px 0px 0px 0px black;
@@ -88,9 +92,10 @@ li button>svg {
 }
 
 li,
+li > div > *,
 li > *,
 li form > *  {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
 }
 li form input {
    
@@ -107,8 +112,22 @@ li form input[type="submit"]:hover {
     background-color: #6366f1;
 }
 
-
-li>p {
+li div > p {
+    line-break: anywhere;
     text-transform: capitalize;
+}
+
+@media screen and (max-width: 768px) {
+
+    li form input[type="submit"] {
+        margin-left:0px;
+
+    }
+
+    li button>svg {
+        vertical-align: text-bottom;
+        width: 24px;
+        height: 24px;
+    }
 }
 </style>
