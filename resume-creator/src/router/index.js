@@ -12,11 +12,19 @@ const router = createRouter({
     {
       path: '/creator',
       name: 'cretor',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/CreatorView.vue')
-    }
+      component: () => import('../views/CreatorView.vue'),
+      children: [
+        {
+          path:"/",
+          name:"personal-data",
+          component: () => import('../views/Creator/PersonalDataView.vue'),
+        }
+      ]
+    },
+    {
+      path: '/:catchAll(.*)*',
+      component: () => import('../views/404.vue'),
+    },
   ]
 })
 

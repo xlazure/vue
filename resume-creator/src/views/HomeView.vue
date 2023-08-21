@@ -44,6 +44,6 @@ main {
 
 footer {
   height: 200px;
-  background-color: #2b2b2b;
+  background-color:var(--secondary-bgcolor);
 }
 </style>

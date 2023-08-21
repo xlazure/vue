@@ -1,9 +1,17 @@
 <template>
   <div>
-    <h1>Creator page</h1>
+    <StepNavigation />
+    <RouterView />/
   </div>
 </template>
+
+<script setup>
+import StepNavigation from '../components/Creator/StepNavigation.vue';
+
+
+</script>
 
 <style>
 
 </style>
+
