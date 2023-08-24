@@ -1,3 +1,8 @@
 <template>
-    <p>Personal Data</p>
+    <FormTemplate :layout="[2, 1, 1, 2, 2]" :formType="'personal-data'" />
+    <!-- <FormTemplate options="xD" /> -->
 </template>
+
+<script setup>
+import FormTemplate from '../../components/formTemplates/FormTemplate.vue';
+</script>

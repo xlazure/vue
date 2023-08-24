@@ -1,0 +1,128 @@
+{
+    "example": [
+        {
+            "inputType": "text",
+            "name": "EDIT",
+            "placeholder": "EDIT",
+            "required": true
+        },
+        {
+            "inputType": "text",
+            "name": "FORM",
+            "placeholder": "FORM",
+            "required": true
+        },
+        {
+            "inputType": "text",
+            "name": "TEMPLATE",
+            "placeholder": "TEMPLATE",
+            "required": true
+        }
+    ],
+    "personal-data": [
+        {
+            "inputType": "text",
+            "name": "imie",
+            "placeholder": "Imię",
+            "required": true
+        },
+        {
+            "inputType": "text",
+            "name": "nazwisko",
+            "placeholder": "Nazwisko",
+            "required": true
+        },
+        {
+            "inputType": "text",
+            "name": "zawod",
+            "placeholder": "Zawód",
+            "required": true
+        },
+        {
+            "inputType": "file",
+            "name": "zdjecie",
+            "placeholder": "Zdjęcie",
+            "required": true
+        },
+        {
+            "inputType": "email",
+            "name": "email",
+            "placeholder": "email",
+            "required": true
+        },
+        {
+            "inputType": "text",
+            "name": "numer-telefonu",
+            "placeholder": "Numer telefonu",
+            "required": true
+        },
+        {
+            "inputType": "text",
+            "name": "linkedin",
+            "placeholder": "LinkedIn",
+            "required": false
+        },
+        {
+            "inputType": "text",
+            "name": "github",
+            "placeholder": "Github",
+            "required": true
+        }
+    ],
+    "experience": [
+        {
+            "inputType": "text",
+            "name": "stanowisko",
+            "placeholder": "Stanowisko",
+            "required": true
+        },
+        {
+            "inputType": "text",
+            "name": "nazwa-firmy",
+            "placeholder": "Nazwa firmy",
+            "required": true
+        },
+        {
+            "inputType": "text",
+            "name": "miasto",
+            "placeholder": "Miasto",
+            "required": true
+        },
+        {
+            "inputType": "select",
+            "name": "rok-od",
+            "placeholder": "Rok",
+            "required": true
+        },
+        {
+            "inputType": "select",
+            "name": "miesiac-od",
+            "placeholder": "Miesiąc",
+            "required": true
+        },
+        {
+            "inputType": "select",
+            "name": "rok-do",
+            "placeholder": "Rok",
+            "required": true
+        },
+        {
+            "inputType": "select",
+            "name": "miesiac-do",
+            "placeholder": "Miesiąc",
+            "required": true
+        },
+        {
+            "inputType": "checkbox",
+            "name": "obecnie",
+            "placeholder": "Obecnie",
+            "required": false
+        },
+        {
+            "inputType": "textarea",
+            "name": "opis-stanowiska",
+            "placeholder": "Opis stanowiska",
+            "required": false
+        }
+    ]
+}
