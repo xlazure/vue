@@ -1,7 +1,11 @@
 <template>
-            <h1>404 Error page</h1>
-            <q-btn color="secondary" label="Return" href="/"/>
+  <h1>404 Error page</h1>
+  <button @click="router.back()">Return</button>
 </template>
 
-<style scoped>
-</style>
+<script setup>
+import { useRouter } from 'vue-router'
+const router = useRouter()
+</script>
+
+<style scoped></style>

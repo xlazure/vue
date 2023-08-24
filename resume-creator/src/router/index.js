@@ -1,5 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+
+// Utility function to get view filenames
+function getViewFilenames() {
+  const context = import.meta.glob('../views/creator/*.vue')
+  return Object.keys(context).map((key) => key.replace(/^\.\.\/views\/creator\/(.*).vue$/, '$1'))
+}
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -7,25 +12,29 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: () => import('../views/HomeView.vue')
     },
     {
       path: '/creator',
-      name: 'cretor',
+      name: 'creator',
       component: () => import('../views/CreatorView.vue'),
-      children: [
-        {
-          path:"/",
-          name:"personal-data",
-          component: () => import('../views/Creator/PersonalDataView.vue'),
-        }
-      ]
+      children: []
     },
     {
       path: '/:catchAll(.*)*',
-      component: () => import('../views/404.vue'),
-    },
+      component: () => import('../views/404.vue')
+    }
   ]
+})
+
+const viewFilenames = getViewFilenames()
+viewFilenames.forEach((filename) => {
+  const subRoute = {
+    path: filename.toLowerCase(),
+    name: filename.toLowerCase(),
+    component: () => import(`../views/creator/${filename}.vue`)
+  }
+  router.addRoute('creator', subRoute)
 })
 
 export default router
