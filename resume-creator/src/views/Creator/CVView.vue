@@ -1,3 +1,7 @@
 <template>
-  <p>CV View</p>
+  <FormTemplate :layout="[1, 2, 2, 2, 1, 1]" :formTypeFromJson="'cv-clause'" />
 </template>
+
+<script setup>
+import FormTemplate from '../../components/formTemplates/FormTemplate.vue'
+</script>

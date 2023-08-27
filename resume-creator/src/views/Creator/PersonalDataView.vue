@@ -1,8 +1,8 @@
 <template>
-    <FormTemplate :layout="[2, 1, 1, 2, 2]" :formType="'personal-data'" />
-    <!-- <FormTemplate options="xD" /> -->
+  <FormTemplate :layout="[2, 1, 1, 2, 2]" :formTypeFromJson="'personal-data'" />
+  <!-- <FormTemplate options="xD" /> -->
 </template>
 
 <script setup>
-import FormTemplate from '../../components/formTemplates/FormTemplate.vue';
+import FormTemplate from '../../components/formTemplates/FormTemplate.vue'
 </script>
