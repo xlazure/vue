@@ -1,16 +1,11 @@
 <template>
-  <form class="form">
-    <p v-if="!formTemplate">Template for {{ formTypeFromJson }} is empty</p>
-    <div v-for="(rowCount, rowIndex) in layout" :key="rowIndex" class="form__row">
-      <label
-        class="form__row-label"
-        v-for="(item, itemIndex) in getObjectsForIndex(rowIndex)"
-        :key="itemIndex"
-      >
-        <p>{{ item.name }}</p>
-        <FormInput :inputProps="item" />
-      </label>
-    </div>
+  <form class="form" @change="handleSubmitChange">
+    <h4>{{ formTypeFromJson  }}</h4>
+    <FormLayout :layout="layout" :formTypeFromJson="formTypeFromJson">
+      <template #default="{item}">
+        <FormInput :inputProps="item" :categoryName="formTypeFromJson" />
+      </template>
+    </FormLayout>
   </form>
 </template>
 
@@ -19,21 +14,23 @@ const { formTypeFromJson = 'example', layout = [1, 2] } = defineProps([
   'layout',
   'formTypeFromJson'
 ])
-
+import FormLayout from './FormLayout.vue'
 import FormInput from './FormInput.vue'
-import cvJsonTemplate from './cv-form.json'
+import { onMounted } from 'vue';
+import { useResumeFormStore } from '../../stores/resume-form'
 
-const formTemplate = cvJsonTemplate[formTypeFromJson]
+const resumeFormStore = useResumeFormStore()
+onMounted(()=>{
+  resumeFormStore.createCategory(formTypeFromJson)
+})
 
-const getObjectsForIndex = (index) => {
-  if (layout === undefined || formTypeFromJson === undefined || formTemplate === undefined) return
-  const start = layout.slice(0, index).reduce((sum, val) => sum + val, 0)
-  const end = start + layout[index]
-  return formTemplate.slice(start, end)
+const handleSubmitChange = (e) => {
+  console.log('ss',e.currentTarget)
 }
+
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .form {
   padding: 1.25em;
 

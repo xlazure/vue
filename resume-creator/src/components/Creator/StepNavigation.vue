@@ -9,11 +9,11 @@
         :name="item.label"
         :value="item.label"
       />
-      <a :href="item.link">
+      <router-link :to="item.link">
         <div class="steps__item-button">
           {{ item.label }}
         </div>
-      </a>
+      </router-link>
     </label>
   </div>
 </template>
