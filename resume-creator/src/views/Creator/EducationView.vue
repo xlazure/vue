@@ -1,5 +1,5 @@
 <template>
-  <FormTemplate :layout="[1, 2, 2, 2, 1, 1]" :formTypeFromJson="'education'" />
+  <FormTemplate :layout="[4]" :formTypeFromJson="'education'" />
 </template>
 
 <script setup>

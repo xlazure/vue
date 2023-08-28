@@ -18,5 +18,9 @@ import StepNavigation from '../components/Creator/StepNavigation.vue'
   display: grid;
   height: 94.9vh;
   grid-template-columns: 55% 45%;
+
+  @media screen and (max-width:1024px) {
+    grid-template-columns: 1fr;
+  }
 }
 </style>

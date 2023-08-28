@@ -8,9 +8,9 @@
 </template>
 
 <script setup>
-  import { useResumeFormStore } from '../../stores/resume-form'
+import { useResumeFormStore } from '../../stores/resume-form'
 
-  const resumeFormStore = useResumeFormStore()
+const resumeFormStore = useResumeFormStore()
 </script>
 
 <style lang="scss" scoped>

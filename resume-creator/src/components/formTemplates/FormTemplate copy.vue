@@ -1,27 +1,25 @@
 <template>
-  <form class="form" @submit.prevent="handleSubmitChange">
+  <form class="form" @change="handleSubmitChange">
+    <h4>{{ formTypeFromJson  }}</h4>
     <FormLayout :layout="layout" :formTypeFromJson="formTypeFromJson">
-      <template #default="{ item }">
-        <FormInputPicker :is="item" />
+      <template #default="{item}">
+        <FormInput :inputProps="item" :categoryName="formTypeFromJson" />
       </template>
     </FormLayout>
   </form>
 </template>
 
 <script setup>
-
-import { defineProps } from 'vue';
-import { onMounted } from 'vue';
-import { resumeFormStore } from '../../stores/resume-form'
-import FormLayout from './FormLayout.vue'
-import FormInputPicker from './FormInputPicker.vue';
 const { formTypeFromJson = 'example', layout = [1, 2] } = defineProps([
   'layout',
   'formTypeFromJson'
 ])
+import FormLayout from './FormLayout.vue'
+import FormInput from './FormInput.vue'
+import { onMounted } from 'vue';
+import { resumeFormStore } from '../../stores/resume-form'
 
-
-onMounted(() => {
+onMounted(()=>{
   resumeFormStore.createCategory(formTypeFromJson)
 })
 
@@ -43,18 +41,6 @@ const handleSubmitChange = (e) => {
     &-label {
       width: 100%;
     }
-  }
-
-  input,
-  select,
-  textarea {
-    width: 100%;
-    padding: 0.5rem;
-    border-radius: 8px;
-  }
-
-  textarea {
-    resize: vertical;
   }
 }
 </style>

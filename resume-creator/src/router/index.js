@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-// Utility function to get view filenames
 function getViewFilenames() {
   const context = import.meta.glob('../views/creator/*.vue')
+  /**/
   return Object.keys(context).map((key) => key.replace(/^\.\.\/views\/creator\/(.*).vue$/, '$1'))
 }
 

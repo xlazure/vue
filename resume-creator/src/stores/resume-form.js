@@ -2,28 +2,31 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useResumeFormStore = defineStore('resume-form', () => {
-  const resumeForm = ref([])
-  const createCategory = (category) => {
-    console.log(resumeForm.value)
-    if (resumeForm.value.some(i => i.category === category)) return;
+  const resumeForm = ref({})
 
-    const form = {
-      category: category,
-      data: []
+  const createCategory = (categoryName) => {
+
+    const storeForm = {
+      id: Date.now() + Math.floor(Math.random() * 100),
+      data: {}
     }
 
-    resumeForm.value.push(form)
+    if (!resumeForm.value[categoryName]) {
+      resumeForm.value[categoryName] = storeForm
+    }
   }
-  const pushDataToCategory = (category,data) => {
-   const categoryObj = resumeForm.value.find(i => i.category === category);
 
-   if (!categoryObj) {
-    console.log(`Category '${category}' not found.`);
-    return;
-}
+  const pushDataToCategory = (category, key, value) => {
+    if (!resumeForm.value[category]) {
+      createCategory(category);
+    }
 
-    categoryObj.data.push(data);
+    if (resumeForm.value.hasOwnProperty(category)) {
+      resumeForm.value[category].data[key] = value
+    }
   }
 
   return { createCategory, pushDataToCategory, resumeForm }
 })
+
+export const resumeFormStore = useResumeFormStore()

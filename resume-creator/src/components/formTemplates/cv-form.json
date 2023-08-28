@@ -373,6 +373,7 @@
       "name": "jezyk-obcy",
       "placeholder": "Język obcy",
       "required": true,
+      "isOption":true,
       "subForm": [
         {
           "elementType": "text",
