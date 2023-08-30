@@ -3,9 +3,9 @@ import { defineStore } from 'pinia'
 
 export const useResumeFormStore = defineStore('resume-form', () => {
   const resumeForm = ref({})
+  const repeaterStore = ref({})
 
   const createCategory = (categoryName) => {
-
     const storeForm = {
       id: Date.now() + Math.floor(Math.random() * 100),
       data: {}
@@ -18,7 +18,7 @@ export const useResumeFormStore = defineStore('resume-form', () => {
 
   const pushDataToCategory = (category, key, value) => {
     if (!resumeForm.value[category]) {
-      createCategory(category);
+      createCategory(category)
     }
 
     if (resumeForm.value.hasOwnProperty(category)) {

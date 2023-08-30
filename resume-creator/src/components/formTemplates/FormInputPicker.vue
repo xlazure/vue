@@ -1,16 +1,17 @@
 <template>
-  <Component :inputProps="is" @inputEvent="inputEvent"/>
+  <Component :inputProps="is" @inputEvent="inputEvent" :category-name="categoryName" />
 </template>
 
 <script setup>
-import { defineProps } from 'vue';
-import { getDynamicComponent } from './inputPicker';
+import { defineProps } from 'vue'
+import { getDynamicComponent } from './inputPicker'
+import { resumeFormStore } from '../../stores/resume-form'
 
-const { is } = defineProps(['is']);
+const { is, categoryName } = defineProps(['is', 'category-name'])
 
-const Component = getDynamicComponent(is.elementType);
+const Component = getDynamicComponent(is.elementType)
 
-function inputEvent (e) {
-  resumeFormStore.pushDataToCategory(categoryName,e.target.name,e.target.value)
+function inputEvent({ key, value }) {
+  resumeFormStore.pushDataToCategory(categoryName, key, value)
 }
 </script>

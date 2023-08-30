@@ -2,24 +2,22 @@
   <form class="form" @submit.prevent="handleSubmitChange">
     <FormLayout :layout="layout" :formTypeFromJson="formTypeFromJson">
       <template #default="{ item }">
-        <FormInputPicker :is="item" />
+        <FormInputPicker :is="item" :category-name="formTypeFromJson" />
       </template>
     </FormLayout>
   </form>
 </template>
 
 <script setup>
-
-import { defineProps } from 'vue';
-import { onMounted } from 'vue';
+import { defineProps } from 'vue'
+import { onMounted } from 'vue'
 import { resumeFormStore } from '../../stores/resume-form'
 import FormLayout from './FormLayout.vue'
-import FormInputPicker from './FormInputPicker.vue';
+import FormInputPicker from './FormInputPicker.vue'
 const { formTypeFromJson = 'example', layout = [1, 2] } = defineProps([
   'layout',
   'formTypeFromJson'
 ])
-
 
 onMounted(() => {
   resumeFormStore.createCategory(formTypeFromJson)
@@ -28,7 +26,6 @@ onMounted(() => {
 const handleSubmitChange = (e) => {
   console.log(e.target.value)
 }
-
 </script>
 
 <style lang="scss">
