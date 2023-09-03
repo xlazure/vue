@@ -8,7 +8,8 @@ export const useResumeFormStore = defineStore('resume-form', () => {
   const createCategory = (categoryName) => {
     const storeForm = {
       id: Date.now() + Math.floor(Math.random() * 100),
-      data: {}
+      data: {},
+      repeater: [],
     }
 
     if (!resumeForm.value[categoryName]) {
@@ -26,7 +27,17 @@ export const useResumeFormStore = defineStore('resume-form', () => {
     }
   }
 
-  return { createCategory, pushDataToCategory, resumeForm }
+  const pushReapterToCategory = (category, object) => {
+    if (!resumeForm.value[category]) {
+      createCategory(category)
+    }
+
+    if (resumeForm.value.hasOwnProperty(category)) {
+      resumeForm.value[category].repeater.push({ object })
+    }
+  }
+
+  return { createCategory, pushDataToCategory, resumeForm,pushReapterToCategory }
 })
 
 export const resumeFormStore = useResumeFormStore()
