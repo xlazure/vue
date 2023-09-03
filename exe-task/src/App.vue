@@ -1,47 +1,33 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+// import TableWithCountries from '@/components/TableWithCountries.vue'
+import TestComponent from '@/components/TestComponent.vue';
+
+// import CheckboxItem from '@/components/CheckboxItem.vue';
+// import RadioItem from '@/components/RadioItem.vue';
+
+
+// function removeFromColumnB(item: any) {
+//   countryStore.actions.removeItemToColumnB(item)
+// }
+// function pushToColumnB(item: any) {
+//   console.log('push')
+//   countryStore.actions.appendItemToColumnB(item)
+// }
+
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  <TestComponent />
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-}
+<style lang="scss">
+  #app {
+    height: 100vh;
+    margin: 0 auto;
+    max-width: 1024px;
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    
   }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
 </style>
