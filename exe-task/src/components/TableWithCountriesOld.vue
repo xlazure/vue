@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import countryStore from '@/store/countryStore.ts';
-import CheckboxItem from '@/components/CheckboxItem.vue';
-import RadioItem from '@/components/RadioItem.vue';
+import countryStore from '@/store/countryStore'
+import CheckboxItem from '@/components/CheckboxItem.vue'
+import RadioItem from '@/components/RadioItem.vue'
 
 function foo() {
-  countryStore.actions.fetchCountries();
+  countryStore.actions.fetchCountries()
 }
 
 function removeFromColumnB(item: any) {
@@ -14,7 +14,6 @@ function pushToColumnB(item: any) {
   console.log('push')
   countryStore.actions.appendItemToColumnB(item)
 }
-
 </script>
 
 <template>
@@ -25,54 +24,63 @@ function pushToColumnB(item: any) {
       </div>
       <div class="col">
         <p v-if="countryStore.state.loading">Loading</p>
-         <CheckboxItem v-else v-for="(item,index) in countryStore.state.countries" :key="item.name" :index="index" :name="item.name" @pushToColumnB="pushToColumnB(item)" @removeFromColumnB="removeFromColumnB(item)">
+        <CheckboxItem
+          v-else
+          v-for="(item, index) in countryStore.state.countries"
+          :key="item.name"
+          :index="index"
+          :name="item.name"
+          @pushToColumnB="pushToColumnB(item)"
+          @removeFromColumnB="removeFromColumnB(item)"
+        >
           <template #name>
-              {{item.name}}
+            {{ item.name }}
           </template>
-         </CheckboxItem>
+        </CheckboxItem>
       </div>
     </section>
     <section id="B">
       <div class="col">
-        <RadioItem v-for="(item,index) in countryStore.state.columnB" :key="index" :index="index" :name="item.name">
+        <RadioItem
+          v-for="(item, index) in countryStore.state.columnB"
+          :key="index"
+          :index="index"
+          :name="item.name"
+        >
           <template #name>
-              {{item.name}}
+            {{ item.name }}
           </template>
-         </RadioItem>
+        </RadioItem>
       </div>
     </section>
     <section id="C">
-      <div class="col">
-      </div>
+      <div class="col"></div>
     </section>
-
   </div>
 </template>
 
 <style lang="scss" scoped>
-  #app {
-    height: 100vh;
-    margin: 0 auto;
-    max-width: 1024px;
+#app {
+  height: 100vh;
+  margin: 0 auto;
+  max-width: 1024px;
 
-    display: grid;
-    grid-template-columns: repeat(3,1fr);
-    section {
-      
-      display:flex;
-      background:#595959;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  section {
+    display: flex;
+    background: #595959;
 
-      .col {
-        border-right: 1px solid black;
-        color:#000;
-        width: 100%;
-        background-color: rgb(195, 145, 91);
+    .col {
+      border-right: 1px solid black;
+      color: #000;
+      width: 100%;
+      background-color: rgb(195, 145, 91);
 
-        &:nth-of-type(even) {
-          background-color: rgb(146, 185, 98);
-        }
+      &:nth-of-type(even) {
+        background-color: rgb(146, 185, 98);
       }
     }
-    
   }
+}
 </style>
