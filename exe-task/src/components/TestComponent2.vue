@@ -1,46 +1,23 @@
-<script lang="ts" setup>
-import CheckboxItem from '@/components/dragable/CheckboxItem.vue'
-import { reactive, ref } from 'vue'
-
-const state = reactive({
-  colA:['soda','cola','pepsi'],
-  colB:[],
-  colC:[]
-})
-
-const copyItem = ref(null);
-
-function setCopyItem(item:any) {
-  copyItem.value = item
-}
-
-function onDrop(e) {
-  const colName = e.target.attributes.name.value;
-
-  if(!colName) return;
-
-  if(state[colName].includes(copyItem.value)) {
-    console.log('item exist in array')
-    return;
-  }
-
-  state[colName].push(copyItem.value)
-}
-
-</script>
-
 <template>
   <section id="A">
     <h3>KOLUMNA A</h3>
     <div class="block">
       <div class="column">
+        <button @click="fetchData">Pobierz</button>
       </div>
       <div class="column">
-       <CheckboxItem v-for="(item,index) in state.colA" :key="item" @setCopyItem="setCopyItem" :is="item" :index="index">
-        <template #btn-name>
-          {{ item }}
-        </template>
-       </CheckboxItem>
+        <CheckboxItem
+          v-for="(item, index) in state.colA"
+          :key="item.name"
+          @setCopyItem="setCopyItem"
+          :is="item"
+          :index="index"
+          @changeCheckState="changeCheckState"
+        >
+          <template #btn-name>
+            {{ item.name }}
+          </template>
+        </CheckboxItem>
       </div>
     </div>
   </section>
@@ -48,7 +25,17 @@ function onDrop(e) {
     <h3>KOLUMNA B</h3>
     <div class="block">
       <div class="column" name="colB" @drop="onDrop" @dragover.prevent>
-        {{ state.colB }}
+        <RadioItem
+          v-for="(item, index) in state.colB"
+          :key="item.name"
+          :index="index"
+          :is="item"
+          @replaceSelectedItemToColumn="replaceSelectedItemToColumn"
+        >
+          <template #name>
+            {{ item.name }}
+          </template>
+        </RadioItem>
       </div>
     </div>
   </section>
@@ -56,13 +43,87 @@ function onDrop(e) {
     <h3>KOLUMNA C</h3>
     <div class="block">
       <div class="column">
-        {{ state.colC }}
+        <CheckboxItem
+          v-for="(item, index) in state.colC"
+          :key="item.name"
+          :is="item"
+          :index="index"
+        >
+          <template #btn-name>
+            {{ item.name }}
+          </template>
+          {{ item }}
+        </CheckboxItem>
       </div>
     </div>
   </section>
 </template>
 
-<style lang="scss" scoped>
+<script setup>
+import CheckboxItem from '@/components/dragable/CheckboxItem.vue'
+import RadioItem from '@/components/dragable/RadioItem.vue'
+import { getAllCountries } from '../services/countriesApi/controller/countries' // Import your API function
+
+import { reactive, ref } from 'vue'
+
+const state = reactive({
+  colA: [],
+  colB: [],
+  colC: []
+})
+
+const copyItem = ref(null)
+
+async function fetchData() {
+  const response = await getAllCountries()
+  const limitedResponse = response.slice(0, 20)
+  state.colA = limitedResponse
+}
+
+function setCopyItem(item) {
+  copyItem.value = item.name
+}
+
+function removeItemFromColumn(column, item) {
+  const indexToRemove = column.findIndex((i) => i.name === item.name)
+  if (indexToRemove !== -1) {
+    column.splice(indexToRemove, 1)
+  }
+}
+
+function addCheckedItemToColumn(column, item) {
+  if (!column.some((i) => i.name === item.name)) {
+    column.push(item)
+  }
+}
+function replaceSelectedItemToColumn(item) {
+  state.colC = [item]
+}
+function changeCheckState(updatedItem) {
+  const itemToUpdate = state.colA[updatedItem.index]
+  itemToUpdate.isChecked = updatedItem.isChecked
+
+  if (updatedItem.isChecked) {
+    addCheckedItemToColumn(state.colB, itemToUpdate)
+  } else {
+    removeItemFromColumn(state.colB, itemToUpdate)
+  }
+}
+
+function onDrop(e) {
+  const colName = e.target.attributes.name.value
+  if (!colName) return
+
+  const itemExists = state[colName].some((item) => item.name === copyItem.value.name)
+
+  if (!itemExists) {
+    copyItem.value.isChecked = true
+    addCheckedItemToColumn(state[colName], copyItem.value)
+  }
+}
+</script>
+
+<style scoped>
 h3 {
   color: black;
   display: block;
@@ -85,6 +146,4 @@ section {
     }
   }
 }
-
-
 </style>
