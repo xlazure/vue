@@ -1,4 +1,5 @@
 <template>
+  <span>
   <input
     :id="'c' + props.index"
     type="checkbox"
@@ -11,37 +12,48 @@
       <slot name="btn-name" />
     </span>
   </label>
+  </span>
+  
 </template>
 
 <script lang="ts" setup>
-const props = defineProps(['is', 'index'])
+const props = defineProps(['is', 'index','isBtn'])
 const emits = defineEmits(['setCopyItem', 'removeItemFormColumn', 'changeCheckState'])
+
+
+
 
 function onDragStart() {
   console.log('drag start')
-  emits('setCopyItem', props.is)
+  emits('setCopyItem',props.is.data)
 }
 function onDragEnd() {
   console.log('drag end')
 }
 function changeCheckState() {
   emits('changeCheckState', {
-    name: props.is.name,
+    name: props.is.data.name,
     index: props.index,
     isChecked: !props.is.isChecked
   })
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 label {
   display: block;
   overflow: hidden;
   float: left;
   margin: 1px;
-  background-color: #2a2424;
-  color: #fff;
+  background-color: #ffffff;
+  color: #000000;
   font-weight: 700;
+  border-radius: 4px;
+
+  &:focus, 
+  &:active {
+    background-color: #c4c4c4;
+  }
 }
 
 input {

@@ -4,43 +4,56 @@ import { getAllCountries } from '../services/countriesApi/controller/countries' 
 interface Country {
   name: string
 }
-const countries1: any = ref([])
-const columnB1: any = ref([])
-const columnC1: any = ref([])
+interface Column {
+  name: string
+}
+
+interface Columns {
+  [key: string]: Country[] // Define an index signature for dynamic keys
+}
+
+
 // Define the store state
 const state = reactive({
-  columnA: [] as Country[],
-  columnB: [] as Country[],
-  columnC: [] as Country[],
+  columns: {
+    columnA: [] as Column[],
+    columnB: [] as Column[],
+    columnC: [] as Column[],
+  } as Columns,
   countries: [] as Country[], // Initialize with an empty array
   loading: false,
   error: null as string | null // Initialize with null
 })
 
 const getters = {
-  getCountries: () => state.countries
+  getCountries: () => state.countries,
+  getColumn: (id:string) => state.columns[id],
+
 }
 
 const mutations = {
-  deleteColumnC: (item: Country) => {
-    const index = state.columnC.indexOf(item)
-    if (index !== -1) {
-      state.columnC.splice(index, 1)
-    }
-  },
-  deleteColumnB: (item: Country) => {
-    const index = state.columnB.indexOf(item)
-    if (index !== -1) {
-      state.columnB.splice(index, 1)
-    }
-  },
+  // deleteColumnC: (item: Country) => {
+  //   const index = state.columnC.indexOf(item)
+  //   if (index !== -1) {
+  //     state.columnC.splice(index, 1)
+  //   }
+  // },
+  // deleteColumnB: (item: Country) => {
+  //   const index = state.columnB.indexOf(item)
+  //   if (index !== -1) {
+  //     state.columnB.splice(index, 1)
+  //   }
+  // },
 
+  setColumnA: (item: Country) => {
+    state.columns.columnA.push(item)
+  },
   setColumnC: (item: Country) => {
-    state.columnC.push(item)
+    state.columns.columnC.push(item)
   },
 
   setColumnB: (item: Country) => {
-    state.columnB.push(item)
+    state.columns.columnB.push(item)
   },
 
   setCountries: (countries: Country[]) => {
@@ -57,20 +70,23 @@ const mutations = {
 }
 
 const actions = {
-  removeItemToColumnB(item: any) {
-    mutations.deleteColumnB(item)
-  },
-  removeItemToColumnC(item: any) {
-    mutations.deleteColumnC(item)
-  },
-  appendItemToColumnB(item: any) {
-    mutations.setColumnB(item)
-  },
 
-  appendItemToColumnC(item: any) {
-    mutations.setColumnC(item)
-  },
+  async addItemToColumn(columnName: string, item: any) {
+    // Check if the columnName exists in state.columns
+    if (columnName in state.columns) {
+      // Initialize the array if it doesn't exist
+      if (!Array.isArray(state.columns[columnName])) {
+        state.columns[columnName] = []
+      }
+      // Push the item into the array
+      state.columns[columnName].push(item)
+    } else {
+      // Handle the case where columnName doesn't exist
+      console.error(`Column '${columnName}' does not exist in state.columns.`)
+    }
 
+    console.log(state)
+  },
   async fetchCountries() {
     try {
       mutations.setLoading(true)
@@ -78,8 +94,9 @@ const actions = {
       const response = await getAllCountries()
 
       const limitedResponse = response.slice(0, 20)
-      console.log('ss')
-      mutations.setCountries(limitedResponse)
+
+      const form = limitedResponse.map((item:any) => ({"data": item, "isChecked": false}))
+      mutations.setColumnA(form)
       mutations.setLoading(false)
     } catch (error: any) {
       mutations.setError(error.message)
@@ -93,7 +110,4 @@ export default {
   getters,
   mutations,
   actions,
-  countries1,
-  columnB1,
-  columnC1
 }

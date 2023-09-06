@@ -1,6 +1,7 @@
 <script setup lang="ts">
 // import TableWithCountries from '@/components/TableWithCountries.vue'
-import TestComponent2 from '@/components/TestComponent2.vue';
+// import TestComponent from '@/components/TestComponent.vue';
+import ThreeColumns from '@/components/ThreeColumns.vue';
 
 // import CheckboxItem from '@/components/CheckboxItem.vue';
 // import RadioItem from '@/components/RadioItem.vue';
@@ -17,7 +18,7 @@ import TestComponent2 from '@/components/TestComponent2.vue';
 </script>
 
 <template>
-  <TestComponent2 />
+  <ThreeColumns />
 </template>
 
 <style lang="scss">
