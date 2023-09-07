@@ -4,12 +4,17 @@ import { getAllCountries } from '../services/countriesApi/controller/countries' 
 interface Country {
   name: string
 }
-interface Column {
-  name: string
+interface ColumnData {
+  name: string;
+
+}
+export interface Column {
+  data: ColumnData
+  isChecked?: boolean;
 }
 
 interface Columns {
-  [key: string]: Country[] // Define an index signature for dynamic keys
+  [key: string]: Column[] // Define an index signature for dynamic keys
 }
 
 
@@ -27,7 +32,7 @@ const state = reactive({
 
 const getters = {
   getCountries: () => state.countries,
-  getColumn: (id:string) => state.columns[id],
+  getColumn: (id: string) => state.columns[id],
 
 }
 
@@ -45,14 +50,14 @@ const mutations = {
   //   }
   // },
 
-  setColumnA: (item: Country) => {
-    state.columns.columnA.push(item)
+  setColumnA: (item: Column) => {
+    state.columns.columnA = item
   },
-  setColumnC: (item: Country) => {
-    state.columns.columnC.push(item)
+  setColumnC: (item: Column) => {
+    state.columns.columnC = item
   },
 
-  setColumnB: (item: Country) => {
+  setColumnB: (item: Column) => {
     state.columns.columnB.push(item)
   },
 
@@ -71,21 +76,46 @@ const mutations = {
 
 const actions = {
 
-  async addItemToColumn(columnName: string, item: any) {
-    // Check if the columnName exists in state.columns
-    if (columnName in state.columns) {
-      // Initialize the array if it doesn't exist
-      if (!Array.isArray(state.columns[columnName])) {
-        state.columns[columnName] = []
-      }
-      // Push the item into the array
-      state.columns[columnName].push(item)
-    } else {
-      // Handle the case where columnName doesn't exist
-      console.error(`Column '${columnName}' does not exist in state.columns.`)
-    }
+  changeCheckState(columnName: string, index: number) {
+    console.log('change')
+    const itemToUpdate = state.columns[columnName][index]
+    itemToUpdate.isChecked = !itemToUpdate.isChecked
 
-    console.log(state)
+  },
+  async addItemToColumn(columnName: string, item: any) {
+    if (columnName in state.columns) {
+      const column = state.columns[columnName];
+
+      const itemIndex = column.findIndex((i: ColumnData) => i.name === item.data.name);
+
+
+
+      if (itemIndex === -1) {
+        if (columnName === 'columnB') {
+          this.changeCheckState(columnName, itemIndex);
+        }
+        column.push(item);
+      } else {
+        console.error(`Item with name '${item.name}' already exists in column '${columnName}'.`);
+      }
+    } else {
+      console.error(`Column '${columnName}' does not exist in state.columns.`);
+    }
+  },
+  removeItemFromColumn(columnName: string, item: Column) {
+    if (columnName in state.columns) {
+      const column = state.columns[columnName];
+      const indexToRemove = column.findIndex((i: Column) => i.name === item.name);
+      console.log(column, columnName, item.name, indexToRemove)
+
+      if (indexToRemove !== -1) {
+        column.splice(indexToRemove, 1);
+      } else {
+        console.log('ss')
+      }
+    } else {
+      console.error(`Column '${columnName}' does not exist in state.columns.`);
+    }
   },
   async fetchCountries() {
     try {
@@ -95,7 +125,10 @@ const actions = {
 
       const limitedResponse = response.slice(0, 20)
 
-      const form = limitedResponse.map((item:any) => ({"data": item, "isChecked": false}))
+      const form = limitedResponse.map((item: any) => ({
+        "data": item as Column['data'],
+        "isChecked": false
+      }));
       mutations.setColumnA(form)
       mutations.setLoading(false)
     } catch (error: any) {

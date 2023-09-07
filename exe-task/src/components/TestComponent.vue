@@ -61,7 +61,7 @@
   </section>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import CheckboxItem from '@/components/dragable/CheckboxItem.vue'
 import RadioItem from '@/components/dragable/RadioItem.vue'
 import { getAllCountries } from '../services/countriesApi/controller/countries' // Import your API function

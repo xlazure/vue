@@ -17,25 +17,48 @@
 </template>
 
 <script lang="ts" setup>
-const props = defineProps(['is', 'index','isBtn'])
-const emits = defineEmits(['setCopyItem', 'removeItemFormColumn', 'changeCheckState'])
+import countryStore from '@/store/countryStore';
+const props = defineProps(['is', 'index','isBtn','columnName'])
+const emits = defineEmits(['setCopyItem', 'removeItemFormColumn', 'changeCheckState',])
 
 
 
 
 function onDragStart() {
   console.log('drag start')
-  emits('setCopyItem',props.is.data)
+  emits('setCopyItem',props.is)
 }
 function onDragEnd() {
   console.log('drag end')
 }
 function changeCheckState() {
-  emits('changeCheckState', {
-    name: props.is.data.name,
-    index: props.index,
-    isChecked: !props.is.isChecked
-  })
+  // emits('changeCheckState', {
+  //   name: props.is.data.name,
+  //   index: props.index,
+  //   isChecked: !props.is.isChecked
+  // })
+  // const itemToUpdate = state.colA[updatedItem.index]
+    
+  countryStore.actions.changeCheckState(props.columnName,props.index)
+
+  console.log(countryStore.state.columns[props.columnName])
+  console.log(props.is)
+
+  // const itemToUpdate = countryStore.state.columns[props.columnName][0][props.index]
+  // itemToUpdate.isChecked = !itemToUpdate.isChecked
+
+
+  if (props.is.isChecked) {
+    countryStore.actions.addItemToColumn('columnB', props.is.data)
+  } else {
+    countryStore.actions.removeItemFromColumn('columnB', props.is.data)
+    countryStore.actions.removeItemFromColumn('columnC', props.is.data)
+  }
+  //   countryStore.actions.addItemToColumn('columnB', props.is.data)
+  // } else {
+  //   countryStore.actions.removeItemFromColumn('columnB', props.is.data)
+  //   countryStore.actions.removeItemFromColumn('columnC', props.is.data)
+  // }
 }
 </script>
 
@@ -52,7 +75,11 @@ label {
 
   &:focus, 
   &:active {
-    background-color: #c4c4c4;
+   opacity: 0.6;
+  }
+
+  .custom-button {
+    font-weight: 700;
   }
 }
 
@@ -61,6 +88,6 @@ input {
 }
 
 input:checked + label {
-  opacity: 0.8;
+  background-color: #1bdc1b;
 }
 </style>

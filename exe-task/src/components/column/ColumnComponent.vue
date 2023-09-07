@@ -8,28 +8,30 @@ const selectedColumnNameProvider= inject('selectedColumnName')
 const selectedCopyItemProvider = inject('copyItem')
 
 const { ID } = defineProps(['ID']);
+const columnsStore = countryStore.state.columns
 
+function removeItemFromColumn(column:any, item:any) {
+  const indexToRemove = column.findIndex((i:any) => i.name === item.name)
+  if (indexToRemove !== -1) {
+    column.splice(indexToRemove, 1)
+  }
+}
 
 function onDrop() {
     const COLUMN_NAME = ID;
     const SELECTED_COLUMN = selectedColumnNameProvider?.value
     const COPY_ITEM = selectedCopyItemProvider?.value
-    
+    console.log(COPY_ITEM)
     if (!COLUMN_NAME) return;
-
     if(SELECTED_COLUMN === COLUMN_NAME) return;
 
-    console.log(SELECTED_COLUMN,'-> ',COLUMN_NAME)
 
-    // if (COLUMN_NAME === "columnA") {
-    //     console.log(SELECTED_COLUMN,'-> ',COLUMN_NAME)
-    // }
-    if (COLUMN_NAME === "columnB") {
+    if (SELECTED_COLUMN === 'columnA' && COLUMN_NAME === "columnB") {
         countryStore.actions.addItemToColumn(COLUMN_NAME,COPY_ITEM);
     }
-    // if (COLUMN_NAME === "columnC") {
-    //     console.log(SELECTED_COLUMN,'-> ',COLUMN_NAME)
-    // }
+    if (SELECTED_COLUMN === 'columnB' && COLUMN_NAME === "columnC") {
+        countryStore.actions.addItemToColumn(COLUMN_NAME,COPY_ITEM);
+    }
 }
 
 </script>
